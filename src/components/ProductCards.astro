@@ -1,0 +1,23 @@
+---
+import { products, contactHref } from "../data/site";
+---
+
+<div class="products">
+  {
+    products.map((p, i) => (
+      <article class:list={["product-card", i % 2 === 0 ? "tone-dark" : "tone-light", "reveal"]}>
+        <div class:list={["product-badge", { alt: i % 2 === 1 }]}>{p.badge}</div>
+        <div>
+          <h3>{p.name}</h3>
+          <p>{p.description}</p>
+          <div class="product-links">
+            <a href={`/products#${p.id}`} class="text-link">Learn more →</a>
+            <a href={contactHref("education-technology", `${p.name} demo request`)} class="text-link muted">
+              Request a demo
+            </a>
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>

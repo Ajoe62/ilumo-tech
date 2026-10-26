@@ -1,0 +1,90 @@
+---
+import { contact, domains } from "../data/site";
+
+const interestLabel = (id: string, title: string) =>
+  id === "education-technology" ? `${title} (ResultPeak AI / JDSmartLearn AI)` : title;
+---
+
+<section class="section contact" aria-labelledby="contact-title">
+  <div class="container contact-grid">
+    <div class="contact-copy">
+      <p class="eyebrow light">Contact</p>
+      <h1 id="contact-title">Let's make technology work for you</h1>
+      <p>
+        Whether you need a school platform, a new website, help with your brand, or training for
+        your team, tell us what you need and we'll get back to you.
+      </p>
+      <ul class="contact-list">
+        <li><span>Email</span><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+        <li><span>Phone / WhatsApp</span><a href={`tel:${contact.phone}`}>{contact.phoneDisplay}</a></li>
+      </ul>
+    </div>
+
+    <form class="contact-form" id="contact-form" data-email={contact.email} novalidate>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+      </div>
+      <div class="field">
+        <label for="interest">I'm interested in</label>
+        <select id="interest" name="interest">
+          {domains.map((d) => <option value={d.id}>{interestLabel(d.id, d.title)}</option>)}
+          <option value="other">Something else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">How can we help?</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Send message</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement;
+  const interest = document.getElementById("interest") as HTMLSelectElement;
+  const message = document.getElementById("message") as HTMLTextAreaElement;
+  const formStatus = form.querySelector(".form-status")!;
+
+  // Prefill from links like /contact?interest=digital-media&subject=...
+  const params = new URLSearchParams(window.location.search);
+  const wanted = params.get("interest");
+  if (wanted && [...interest.options].some((o) => o.value === wanted)) interest.value = wanted;
+  const subject = params.get("subject");
+  if (subject) message.value = `${subject}: `;
+
+  // Validates, then opens the visitor's email app with the message.
+  // Swap this for a form service (e.g. Formspree) or your own backend when ready.
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    ["name", "email", "message"].forEach((id) => {
+      const input = document.getElementById(id) as HTMLInputElement;
+      const ok = input.value.trim() !== "" && input.checkValidity();
+      input.closest(".field")!.classList.toggle("invalid", !ok);
+      if (!ok) valid = false;
+    });
+
+    if (!valid) {
+      formStatus.textContent = "Please fill in your name, a valid email and your message.";
+      formStatus.classList.add("error");
+      return;
+    }
+
+    const data = new FormData(form);
+    const interestText = interest.options[interest.selectedIndex].text;
+    const subject = `Website enquiry: ${interestText}`;
+    const body = `Name: ${data.get("name")}\nEmail: ${data.get("email")}\nInterest: ${interestText}\n\n${data.get("message")}`;
+    window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    formStatus.classList.remove("error");
+    formStatus.textContent = "Opening your email app… Thank you for reaching out!";
+  });
+</script>

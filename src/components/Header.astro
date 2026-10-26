@@ -1,0 +1,60 @@
+---
+import Brand from "./Brand.astro";
+import { nav } from "../data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (href: string) => (href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`));
+---
+
+<header class="site-header">
+  <div class="container nav">
+    <Brand />
+
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-menu" id="nav-menu" aria-label="Main">
+      {
+        nav.map((item) =>
+          item.children ? (
+            <div class="nav-item has-sub">
+              <a href={item.href} class:list={{ active: isActive(item.href) }}>
+                {item.label}
+                <svg class="caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
+              </a>
+              <div class="submenu">
+                {item.children.map((child) => (
+                  <a href={child.href} class:list={{ active: isActive(child.href) }}>{child.label}</a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a href={item.href} class:list={{ active: isActive(item.href) }} aria-current={isActive(item.href) ? "page" : undefined}>
+              {item.label}
+            </a>
+          )
+        )
+      }
+      <a href="/contact" class="btn btn-primary btn-sm">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Sticky header shadow
+  const header = document.querySelector<HTMLElement>(".site-header")!;
+  const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 8);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // Mobile menu
+  const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle")!;
+  const menu = document.getElementById("nav-menu")!;
+  toggle.addEventListener("click", () => {
+    const open = !menu.classList.contains("open");
+    menu.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+</script>

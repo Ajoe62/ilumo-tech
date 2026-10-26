@@ -1,0 +1,27 @@
+---
+const chips = ["EdTech", "Software", "Digital Media", "AI Hub", "Training"];
+---
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Technology · Media · Education · Digital Skills</p>
+      <h1>Technology That Works for <span class="grad">People and Businesses</span></h1>
+      <p class="lead">
+        At ilumo Technologies, we use technology to solve real problems, help businesses grow,
+        improve education, and equip people with in-demand digital skills.
+      </p>
+      <div class="hero-actions">
+        <a href="/services" class="btn btn-primary">Explore what we do</a>
+        <a href="/contact" class="btn btn-ghost">Start a conversation</a>
+      </div>
+      <p class="motto">We build. <span>We empower.</span> We help you grow.</p>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-orb"></div>
+      <img src="/images/ilumo-mark.svg" alt="" class="hero-mark" />
+      {chips.map((chip, i) => <span class={`chip chip-${i + 1}`}>{chip}</span>)}
+    </div>
+  </div>
+</section>

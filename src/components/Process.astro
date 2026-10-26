@@ -1,0 +1,23 @@
+---
+import { steps } from "../data/site";
+---
+
+<section class="section process" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Getting Started</p>
+      <h2 id="process-title">Simple steps to working with us</h2>
+    </div>
+    <ol class="steps">
+      {
+        steps.map((s, i) => (
+          <li class="reveal">
+            <span>{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

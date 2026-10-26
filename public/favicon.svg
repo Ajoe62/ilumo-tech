@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="500 115 490 530" role="img" aria-label="ilumo Technologies">
+  <defs>
+    <path id="g" d="M590 125H622Q636 125 646 135L893 386Q925 420 917 466Q907 520 866 538Q858 541 850 541H592Q512 541 510 461V206Q512 125 590 125Z"/>
+    <path id="b" d="M637 222H888Q976 226 982 316V548Q978 628 900 637Q872 638 856 622L594 355Q568 325 576 286Q588 240 637 222Z"/>
+    <clipPath id="clip"><use href="#g"/></clipPath>
+  </defs>
+  <use href="#g" fill="#66E0BF"/>
+  <use href="#b" fill="#3EA0FA"/>
+  <use href="#b" fill="#034ECF" clip-path="url(#clip)"/>
+</svg>

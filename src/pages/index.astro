@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Audience from "../components/Audience.astro";
+import DomainsOverview from "../components/DomainsOverview.astro";
+import ProductCards from "../components/ProductCards.astro";
+import Process from "../components/Process.astro";
+import CtaBand from "../components/CtaBand.astro";
+---
+
+<BaseLayout>
+  <Hero />
+  <Audience />
+  <DomainsOverview />
+
+  <section class="section" aria-labelledby="products-title">
+    <div class="container products-teaser">
+      <div class="section-head left">
+        <p class="eyebrow">Our Products</p>
+        <h2 id="products-title">Education platforms built by ilumo</h2>
+        <p>
+          Alongside our client work, we build and own education products that help schools assess
+          students, automate grading and improve learning.
+        </p>
+        <a href="/products" class="btn btn-primary">View our products</a>
+      </div>
+      <ProductCards />
+    </div>
+  </section>
+
+  <Process />
+  <CtaBand />
+</BaseLayout>

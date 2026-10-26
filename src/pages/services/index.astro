@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import ServiceGrid from "../../components/ServiceGrid.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { domains } from "../../data/site";
+---
+
+<BaseLayout
+  title="Services"
+  description="Education technology, software development, digital media, ilumo AI Hub and digital skills training from ilumo Technologies."
+>
+  <PageHero
+    eyebrow="What We Do"
+    title="Five domains. One goal: making technology work for you."
+    lead="Each area solves a clear problem, so a school owner, business owner, brand manager or individual can quickly see how we can help."
+    crumbs={[{ label: "Services", href: "/services" }]}
+  />
+
+  <section class="section surface">
+    <div class="container">
+      <ServiceGrid items={domains} detailed headingLevel={2} />
+
+      <div class="split-note services-note reveal">
+        <a href="/products">
+          <h3>Looking for our own products?</h3>
+          <p>ResultPeak AI and JDSmartLearn AI are education platforms we build, own and continuously improve.</p>
+        </a>
+        <a href="/contact">
+          <h3>Need something custom?</h3>
+          <p>Tell us what you're trying to achieve and we'll shape the right solution around it.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Not sure where to start?" text="Tell us your goal and we'll point you to the right service." />
+</BaseLayout>

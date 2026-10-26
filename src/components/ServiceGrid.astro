@@ -1,0 +1,23 @@
+---
+import ServiceCard from "./ServiceCard.astro";
+import type { Domain } from "../data/site";
+
+interface Props {
+  items: Domain[];
+  detailed?: boolean;
+  headingLevel?: 2 | 3;
+}
+
+const { items, detailed = false, headingLevel = 3 } = Astro.props;
+
+// 4 cards sit in one row; 5 sit as 3 + 2 (centred). Alternate navy and white either way.
+const cols = items.length === 4 ? 4 : 3;
+---
+
+<div class="svc-grid" data-cols={cols}>
+  {
+    items.map((domain, i) => (
+      <ServiceCard domain={domain} tone={i % 2 === 0 ? "dark" : "light"} detailed={detailed} headingLevel={headingLevel} />
+    ))
+  }
+</div>

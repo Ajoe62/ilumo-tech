@@ -1,0 +1,43 @@
+---
+import { domains, domainHref } from "../data/site";
+---
+
+<section class="section ecosystem" aria-labelledby="eco-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">How It Fits Together</p>
+      <h2 id="eco-title">More than a software company</h2>
+      <p>
+        ilumo Technologies brings together technology, media, education and digital skills —
+        five complementary areas that strengthen one another.
+      </p>
+    </div>
+
+    <div class="eco-diagram reveal">
+      <div class="eco-center">
+        <img src="/images/ilumo-mark.svg" alt="" />
+        <strong>ilumo Technologies</strong>
+        <span>Technology, media, education &amp; digital skills</span>
+      </div>
+      {
+        domains.map((d, i) => (
+          <a href={domainHref(d.id)} class={`eco-node n${i + 1}`}>
+            <strong>{d.shortTitle}</strong>
+            <span>{d.ecosystemNote}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="split-note reveal">
+      <a href="/products">
+        <h3>Our products</h3>
+        <p>ResultPeak AI and JDSmartLearn AI are education platforms we design, own and continuously improve.</p>
+      </a>
+      <a href="/services/software-development">
+        <h3>Our client services</h3>
+        <p>For businesses and brands, we build custom websites, apps and software tailored to your needs.</p>
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+{
+  "name": "ilumo-tech",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "astro": "^6.4.8",
+    "typescript": "^6.0.3"
+  }
+}

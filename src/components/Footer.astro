@@ -1,0 +1,33 @@
+---
+import Brand from "./Brand.astro";
+import { contact, domains, domainHref, products, site } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <Brand />
+      <p>{site.motto}</p>
+    </div>
+    <div>
+      <h4>Services</h4>
+      {domains.map((d) => <a href={domainHref(d.id)}>{d.shortTitle}</a>)}
+    </div>
+    <div>
+      <h4>Products</h4>
+      {products.map((p) => <a href={`/products#${p.id}`}>{p.name}</a>)}
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      <a href={`tel:${contact.phone}`}>{contact.phoneDisplay}</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; {year} {site.name}. All rights reserved.</p>
+  </div>
+</footer>

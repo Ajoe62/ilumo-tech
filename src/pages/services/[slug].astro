@@ -1,0 +1,108 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import ProductCards from "../../components/ProductCards.astro";
+import Process from "../../components/Process.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import DomainsOverview from "../../components/DomainsOverview.astro";
+import DomainIcon from "../../components/DomainIcon.astro";
+import EdtechVisual from "../../components/visuals/EdtechVisual.astro";
+import SoftwareVisual from "../../components/visuals/SoftwareVisual.astro";
+import MediaVisual from "../../components/visuals/MediaVisual.astro";
+import HubVisual from "../../components/visuals/HubVisual.astro";
+import TrainingVisual from "../../components/visuals/TrainingVisual.astro";
+import { domains, contactHref, type Domain } from "../../data/site";
+
+export const getStaticPaths = (() =>
+  domains.map((domain) => ({ params: { slug: domain.id }, props: { domain } }))) satisfies GetStaticPaths;
+
+const { domain } = Astro.props as { domain: Domain };
+
+const visuals = {
+  "education-technology": EdtechVisual,
+  "software-development": SoftwareVisual,
+  "digital-media": MediaVisual,
+  "ai-hub": HubVisual,
+  "digital-skills-training": TrainingVisual,
+};
+const Visual = visuals[domain.id];
+const ctaHref = contactHref(domain.id, domain.cta.subject);
+---
+
+<BaseLayout title={domain.title} description={`${domain.tagline}. ${domain.description.replace(/<[^>]+>/g, "")}`}>
+  <PageHero
+    eyebrow={`<span class="num">${domain.num}</span> ${domain.title}`}
+    title={domain.tagline}
+    lead={domain.description}
+    crumbs={[
+      { label: "Services", href: "/services" },
+      { label: domain.shortTitle, href: `/services/${domain.id}` },
+    ]}
+  >
+    <div class="hero-actions" slot="actions">
+      <a href={ctaHref} class="btn btn-primary">{domain.cta.label}</a>
+      <a href="/services" class="btn btn-ghost">All services</a>
+    </div>
+    <Visual slot="visual" />
+  </PageHero>
+
+  <section class="section" aria-labelledby="offer-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What We Offer</p>
+        <h2 id="offer-title">How we can help</h2>
+      </div>
+      <ul class="offer-cards" data-count={domain.offers.length}>
+        {
+          domain.offers.map((offer, i) => (
+            <li class:list={["offer-card", i % 2 === 0 ? "tone-dark" : "tone-light", "reveal"]}>
+              <div class="offer-top">
+                <span class="offer-check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                </span>
+                <span class="offer-index">{String(i + 1).padStart(2, "0")}</span>
+              </div>
+              <h3>{offer}</h3>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    domain.id === "education-technology" && (
+      <section class="section surface" aria-labelledby="products-title">
+        <div class="container products-teaser">
+          <div class="section-head left">
+            <p class="eyebrow">Our Products</p>
+            <h2 id="products-title">ResultPeak AI and JDSmartLearn AI</h2>
+            <p>Education platforms we design, own and continuously improve for schools, teachers and students.</p>
+            <a href="/products" class="btn btn-primary">View our products</a>
+          </div>
+          <ProductCards />
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section who-section">
+    <div class="container">
+      <div class="who-card reveal">
+        <span class="who-icon"><DomainIcon id={domain.id} /></span>
+        <div>
+          <p class="eyebrow">Who It's For</p>
+          <p class="who-text">{domain.whoFor}</p>
+        </div>
+        <a href={ctaHref} class="btn btn-light">{domain.cta.label}</a>
+      </div>
+    </div>
+  </section>
+
+  <Process />
+
+  <CtaBand title={`Ready to get started with ${domain.shortTitle}?`} label={domain.cta.label} href={ctaHref} />
+
+  <DomainsOverview eyebrow="Explore More" title="Our other services" text="" exclude={domain.id} />
+</BaseLayout>

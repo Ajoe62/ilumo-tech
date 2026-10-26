@@ -1,0 +1,31 @@
+---
+import ServiceGrid from "./ServiceGrid.astro";
+import { domains, type DomainId } from "../data/site";
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  exclude?: DomainId;
+}
+
+const {
+  eyebrow = "What We Do",
+  title = "Five domains. One goal: making technology work for you.",
+  text = "Each area solves a clear problem, whether you're a school, a business, a brand or an individual.",
+  exclude,
+} = Astro.props;
+
+const items = domains.filter((d) => d.id !== exclude);
+---
+
+<section class="section surface" aria-labelledby="domains-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id="domains-title">{title}</h2>
+      {text && <p>{text}</p>}
+    </div>
+    <ServiceGrid items={items} />
+  </div>
+</section>

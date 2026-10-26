@@ -1,0 +1,36 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  crumbs?: { label: string; href: string }[];
+}
+
+const { eyebrow, title, lead, crumbs = [] } = Astro.props;
+const hasVisual = Astro.slots.has("visual");
+---
+
+<section class="page-hero">
+  <div class:list={["container", { "page-hero-grid": hasVisual }]}>
+    <div class="page-hero-copy">
+      {
+        crumbs.length > 0 && (
+          <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            {crumbs.map((c) => (
+              <>
+                <span aria-hidden="true">/</span>
+                <a href={c.href}>{c.label}</a>
+              </>
+            ))}
+          </nav>
+        )
+      }
+      <p class="eyebrow" set:html={eyebrow} />
+      <h1>{title}</h1>
+      {lead && <p class="lead" set:html={lead} />}
+      <slot name="actions" />
+    </div>
+    {hasVisual && <slot name="visual" />}
+  </div>
+</section>

@@ -1,0 +1,47 @@
+---
+import DomainIcon from "./DomainIcon.astro";
+import { domainHref, type Domain } from "../data/site";
+
+interface Props {
+  domain: Domain;
+  tone: "dark" | "light";
+  // detailed: description + offers (services page); otherwise a compact teaser
+  detailed?: boolean;
+  headingLevel?: 2 | 3;
+}
+
+const { domain, tone, detailed = false, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+const MAX_OFFERS = 4;
+const shownOffers = domain.offers.slice(0, MAX_OFFERS);
+const moreCount = domain.offers.length - shownOffers.length;
+---
+
+<a href={domainHref(domain.id)} class:list={["svc-card", `svc-${tone}`, { "svc-detailed": detailed }, "reveal"]}>
+  <div class="svc-top">
+    <span class="svc-icon"><DomainIcon id={domain.id} /></span>
+    <span class="svc-num">{domain.num}</span>
+  </div>
+
+  <Heading class="svc-title">{domain.title}</Heading>
+  <p class="svc-tagline">{domain.tagline}</p>
+
+  {
+    detailed && (
+      <>
+        <p class="svc-desc" set:html={domain.description} />
+        <ul class="svc-offers">
+          {shownOffers.map((offer) => <li>{offer}</li>)}
+          {moreCount > 0 && <li class="svc-more">+{moreCount} more</li>}
+        </ul>
+      </>
+    )
+  }
+
+  <span class="svc-cta">
+    <span>{domain.cardLink}</span>
+    <span class="svc-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+    </span>
+  </span>
+</a>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Ecosystem from "../components/Ecosystem.astro";
+import Process from "../components/Process.astro";
+import CtaBand from "../components/CtaBand.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="ilumo Technologies combines technology, media, education and digital skills to help people and organisations make the most of the digital world."
+>
+  <PageHero
+    eyebrow="About ilumo Technologies"
+    title="Technology That Works for People and Businesses"
+    lead="At ilumo Technologies, we use technology to solve real problems, help businesses grow, improve education, and equip people with in-demand digital skills."
+    crumbs={[{ label: "About", href: "/about" }]}
+  />
+
+  <section class="section about-intro">
+    <div class="container about-grid">
+      <div class="reveal">
+        <p class="about-text">
+          From building intelligent software and educational platforms to managing digital brands,
+          sharing AI insights, and delivering practical technology training, we help individuals and
+          organisations make the most of the digital world.
+        </p>
+      </div>
+      <ul class="motto-list reveal">
+        <li><strong>We build.</strong><span>Software, platforms and digital products that solve real problems.</span></li>
+        <li><strong>We empower.</strong><span>Training and insights that help people use technology with confidence.</span></li>
+        <li><strong>We help you grow.</strong><span>Ongoing support for brands, businesses and schools.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <Ecosystem />
+  <Process />
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import { products, contactHref } from "../data/site";
+---
+
+<BaseLayout
+  title="Products"
+  description="ResultPeak AI and JDSmartLearn AI — education technology products built by ilumo Technologies."
+>
+  <PageHero
+    eyebrow="Our Products"
+    title="Education platforms built by ilumo"
+    lead="We design, own and continuously improve products that help schools manage assessments, automate grading, support teachers and improve how students learn."
+    crumbs={[{ label: "Products", href: "/products" }]}
+  />
+
+  {
+    products.map((p, i) => (
+      <section class:list={["section", "product-feature", { surface: i % 2 === 0 }]} id={p.id}>
+        <div class:list={["container", "detail-grid", { reverse: i % 2 === 1 }]}>
+          <div class="detail-copy reveal">
+            <div class:list={["product-badge", "lg", { alt: i % 2 === 1 }]}>{p.badge}</div>
+            <h2>{p.name}</h2>
+            <p class="accent-line">{p.summary}</p>
+            <p>{p.description}</p>
+            <p class="who"><strong>Built for:</strong> schools, administrators, teachers and students.</p>
+            <a href={contactHref("education-technology", `${p.name} demo request`)} class="btn btn-primary">
+              Request a demo
+            </a>
+          </div>
+          <div class="product-shot reveal" aria-hidden="true">
+            <div class="mock-window">
+              <div class="mock-bar"><span></span><span></span><span></span></div>
+              <div class="mock-body">
+                <div class="mock-line w50"></div>
+                <div class="mock-tiles"><div></div><div></div><div></div></div>
+                <div class="mock-line w80"></div>
+                <div class="mock-line w60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="container split-note">
+      <a href="/services/education-technology">
+        <h3>Part of our Education Technology work</h3>
+        <p>See everything we build for schools, from assessment tools to digital examination systems.</p>
+      </a>
+      <a href="/services/software-development">
+        <h3>Need something custom?</h3>
+        <p>Our software team builds websites, apps and custom software for businesses and brands.</p>
+      </a>
+    </div>
+  </section>
+
+  <CtaBand
+    title="See our products in action"
+    text="Book a demo for your school and we'll show you how ResultPeak AI and JDSmartLearn AI work."
+    label="Request a demo"
+    href={contactHref("education-technology", "Product demo request")}
+  />
+</BaseLayout>

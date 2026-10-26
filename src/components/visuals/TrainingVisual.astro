@@ -1,0 +1,14 @@
+---
+const tiles = [
+  { title: "Individuals", text: "Career-ready skills" },
+  { title: "Schools", text: "Teacher & student programmes" },
+  { title: "Teams", text: "Productivity with AI" },
+  { title: "Businesses", text: "Custom corporate training" },
+];
+---
+
+<div class="detail-visual reveal" aria-hidden="true">
+  <div class="train-grid">
+    {tiles.map((t) => <div class="train-tile"><strong>{t.title}</strong><span>{t.text}</span></div>)}
+  </div>
+</div>
