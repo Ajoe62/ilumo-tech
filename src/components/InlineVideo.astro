@@ -1,0 +1,41 @@
+---
+// A muted, looping clip in a rounded frame. It only downloads and plays while on screen.
+interface Props {
+  src: string;
+  ratio?: string; // the clip's own shape, e.g. "16 / 9" or "1 / 1", so nothing gets cropped
+}
+
+const { src, ratio = "16 / 9" } = Astro.props;
+---
+
+<div class="media-frame reveal" style={`aspect-ratio: ${ratio}`} aria-hidden="true">
+  <!-- #t=0.1 makes browsers show the first frame before playback (and for reduced motion) -->
+  <video class="inline-vid" muted playsinline loop preload="none">
+    <source src={`${src}#t=0.1`} type="video/mp4" />
+  </video>
+</div>
+
+<script>
+  const vids = document.querySelectorAll<HTMLVideoElement>(".inline-vid");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    // Show a still first frame instead of motion.
+    vids.forEach((v) => {
+      v.preload = "metadata";
+      v.load();
+    });
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          const v = target as HTMLVideoElement;
+          if (isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        });
+      },
+      { rootMargin: "200px 0px" }
+    );
+    vids.forEach((v) => io.observe(v));
+  }
+</script>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
-import ServiceGrid from "../../components/ServiceGrid.astro";
+import ServiceList from "../../components/ServiceList.astro";
 import CtaBand from "../../components/CtaBand.astro";
 import { domains } from "../../data/site";
 ---
@@ -12,14 +12,14 @@ import { domains } from "../../data/site";
 >
   <PageHero
     eyebrow="What We Do"
-    title="Five domains. One goal: making technology work for you."
+    title="Six domains. One goal: making technology work for you."
     lead="Each area solves a clear problem, so a school owner, business owner, brand manager or individual can quickly see how we can help."
     crumbs={[{ label: "Services", href: "/services" }]}
   />
 
   <section class="section surface">
     <div class="container">
-      <ServiceGrid items={domains} detailed headingLevel={2} />
+      <ServiceList items={domains} />
 
       <div class="split-note services-note reveal">
         <a href="/products">

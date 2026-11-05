@@ -3,3 +3,6 @@ dist/
 .astro/
 .env
 .DS_Store
+
+# uncompressed source clips (compressed copies live in public/videos)
+video-originals/

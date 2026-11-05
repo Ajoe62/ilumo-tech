@@ -1,0 +1,39 @@
+---
+// Stacked, equal-height row cards for the services page.
+// Each row is a teaser; the full details live on /services/<id>.
+import { domainHref, type Domain } from "../data/site";
+
+interface Props {
+  items: Domain[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="svc-list">
+  {
+    items.map((domain, i) => (
+      <li class="reveal">
+        <a href={domainHref(domain.id)} class:list={["svc-row", i % 2 === 0 ? "svc-dark" : "svc-light"]}>
+          <div class="svc-row-num">
+            <span class="svc-row-index">{domain.num}</span>
+            <span class="svc-row-label">{domain.label}</span>
+          </div>
+          <div class="svc-row-body">
+            <h2 class="svc-row-title">{domain.title}</h2>
+            <p class="svc-row-text">{domain.description.replace(/<[^>]+>/g, "")}</p>
+            <ul class="svc-row-tags" aria-label="Includes">
+              {domain.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          </div>
+          <span class="svc-row-go">
+            <span class="svc-row-go-text">View details</span>
+            <span class="svc-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </span>
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ol>

@@ -1,0 +1,34 @@
+---
+import { getDomain, domainHref, contactHref } from "../data/site";
+
+const domain = getDomain("ai-automation");
+const points = [
+  { title: "Save time", text: "Agents handle repetitive tasks like replies, follow-ups and data entry." },
+  { title: "Respond 24/7", text: "Customers get answers on your website, WhatsApp and Instagram, day or night." },
+  { title: "Grow without extra hires", text: "Your tools work together automatically, so your team can focus on growth." },
+];
+---
+
+<section class="section featured" aria-labelledby="featured-title">
+  <div class="container featured-inner reveal">
+    <div class="featured-copy">
+      <p class="eyebrow light"><span class="new-badge">New</span> {domain.title}</p>
+      <h2 id="featured-title">{domain.tagline}</h2>
+      <p>{domain.description}</p>
+      <div class="hero-actions">
+        <a href={contactHref(domain.id, domain.cta.subject)} class="btn btn-light">{domain.cta.label}</a>
+        <a href={domainHref(domain.id)} class="btn btn-outline-light">See how it works</a>
+      </div>
+    </div>
+    <ul class="featured-points">
+      {
+        points.map((p) => (
+          <li>
+            <strong>{p.title}</strong>
+            <span>{p.text}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

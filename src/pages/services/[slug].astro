@@ -7,6 +7,8 @@ import Process from "../../components/Process.astro";
 import CtaBand from "../../components/CtaBand.astro";
 import DomainsOverview from "../../components/DomainsOverview.astro";
 import DomainIcon from "../../components/DomainIcon.astro";
+import InlineVideo from "../../components/InlineVideo.astro";
+import AutomationVisual from "../../components/visuals/AutomationVisual.astro";
 import EdtechVisual from "../../components/visuals/EdtechVisual.astro";
 import SoftwareVisual from "../../components/visuals/SoftwareVisual.astro";
 import MediaVisual from "../../components/visuals/MediaVisual.astro";
@@ -20,6 +22,7 @@ export const getStaticPaths = (() =>
 const { domain } = Astro.props as { domain: Domain };
 
 const visuals = {
+  "ai-automation": AutomationVisual,
   "education-technology": EdtechVisual,
   "software-development": SoftwareVisual,
   "digital-media": MediaVisual,
@@ -44,7 +47,7 @@ const ctaHref = contactHref(domain.id, domain.cta.subject);
       <a href={ctaHref} class="btn btn-primary">{domain.cta.label}</a>
       <a href="/services" class="btn btn-ghost">All services</a>
     </div>
-    <Visual slot="visual" />
+    {domain.video ? <InlineVideo slot="visual" src={domain.video.src} ratio={domain.video.ratio} /> : <Visual slot="visual" />}
   </PageHero>
 
   <section class="section" aria-labelledby="offer-title">

@@ -1,27 +1,108 @@
 ---
-const chips = ["EdTech", "Software", "Digital Media", "AI Hub", "Training"];
+import { domainHref } from "../data/site";
+
+// Background clips, played in this order. Add or remove a line to change the rotation.
+const clips = ["/videos/hero-1.mp4", "/videos/hero-2.mp4", "/videos/hero-3.mp4", "/videos/hero-4.mp4"];
 ---
 
 <section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">Technology · Media · Education · Digital Skills</p>
-      <h1>Technology That Works for <span class="grad">People and Businesses</span></h1>
-      <p class="lead">
-        At ilumo Technologies, we use technology to solve real problems, help businesses grow,
-        improve education, and equip people with in-demand digital skills.
-      </p>
-      <div class="hero-actions">
-        <a href="/services" class="btn btn-primary">Explore what we do</a>
-        <a href="/contact" class="btn btn-ghost">Start a conversation</a>
-      </div>
-      <p class="motto">We build. <span>We empower.</span> We help you grow.</p>
-    </div>
+  <div class="hero-video-bg" aria-hidden="true">
+    {
+      clips.map((src, i) => (
+        <video
+          class="hero-vid"
+          muted
+          playsinline
+          autoplay={i === 0}
+          preload={i === 0 ? "auto" : "none"}
+          poster={i === 0 ? "/videos/hero-poster.jpg" : undefined}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      ))
+    }
+  </div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="hero-orb"></div>
-      <img src="/images/ilumo-mark.svg" alt="" class="hero-mark" />
-      {chips.map((chip, i) => <span class={`chip chip-${i + 1}`}>{chip}</span>)}
+  <div class="container hero-content">
+    <p class="eyebrow">Agentic AI · Automation · Software · Media · Education</p>
+    <h1>Technology That Works for <span class="grad">People and Businesses</span></h1>
+    <p class="lead">
+      At ilumo Technologies, we build AI agents and automations that take repetitive work off your
+      team, alongside software, digital media, education technology and practical digital skills
+      training.
+    </p>
+    <div class="hero-actions">
+      <a href={domainHref("ai-automation")} class="btn btn-primary">Automate your business</a>
+      <a href="/services" class="btn btn-ghost">Explore what we do</a>
     </div>
+    <p class="motto">We build. <span>We empower.</span> We help you grow.</p>
   </div>
 </section>
+
+<script>
+  const FADE_MS = 1500;
+
+  // Cross-fade an element's opacity; the CSS transition does the animation.
+  function fade(el: HTMLElement, opacity: number, onComplete?: () => void) {
+    el.style.opacity = String(opacity);
+    if (!onComplete) return;
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      el.removeEventListener("transitionend", finish);
+      onComplete();
+    };
+    el.addEventListener("transitionend", finish);
+    setTimeout(finish, FADE_MS + 100); // fallback if transitionend never fires
+  }
+
+  // Start buffering a clip ahead of time (preload="none" alone would ignore load()).
+  function warm(v: HTMLVideoElement) {
+    if (v.preload === "auto") return;
+    v.preload = "auto";
+    v.load();
+  }
+
+  function heroVideo() {
+    const vids = Array.from(document.querySelectorAll<HTMLVideoElement>(".hero-vid"));
+    if (!vids.length) return;
+
+    // Respect reduced motion: hide videos, leave the static gradient background.
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      vids.forEach((v) => {
+        v.pause();
+        v.style.display = "none";
+      });
+      return;
+    }
+
+    vids[0].style.opacity = "1";
+    let current = 0;
+
+    const advance = (from: number) => {
+      const to = (from + 1) % vids.length;
+      if (to === from) {
+        // Single clip: just replay it.
+        vids[from].currentTime = 0;
+        vids[from].play().catch(() => {});
+        return;
+      }
+      vids[to].play().catch(() => {});
+      fade(vids[to], 1);
+      fade(vids[from], 0, () => {
+        vids[from].pause();
+        vids[from].currentTime = 0;
+      });
+      current = to;
+      warm(vids[(to + 1) % vids.length]); // warm up the clip after next
+    };
+
+    vids.forEach((v, i) => v.addEventListener("ended", () => { if (i === current) advance(i); }));
+    if (vids.length > 1) warm(vids[1]); // warm up the second clip
+  }
+
+  heroVideo();
+</script>
