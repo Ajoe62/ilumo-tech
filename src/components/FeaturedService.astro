@@ -3,9 +3,9 @@ import { getDomain, domainHref, contactHref } from "../data/site";
 
 const domain = getDomain("ai-automation");
 const points = [
-  { title: "Save time", text: "Agents handle repetitive tasks like replies, follow-ups and data entry." },
-  { title: "Respond 24/7", text: "Customers get answers on your website, WhatsApp and Instagram, day or night." },
-  { title: "Grow without extra hires", text: "Your tools work together automatically, so your team can focus on growth." },
+  { title: "Save time", text: "Agents handle replies, follow-ups and data entry." },
+  { title: "Respond 24/7", text: "Answer customers on your website, WhatsApp and Instagram." },
+  { title: "Grow without extra hires", text: "Your tools work together, so your team can focus on growth." },
 ];
 ---
 
@@ -24,8 +24,11 @@ const points = [
       {
         points.map((p) => (
           <li>
-            <strong>{p.title}</strong>
-            <span>{p.text}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10" /></svg>
+            <span>
+              <strong>{p.title}</strong>
+              {p.text}
+            </span>
           </li>
         ))
       }

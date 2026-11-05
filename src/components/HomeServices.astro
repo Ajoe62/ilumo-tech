@@ -1,0 +1,37 @@
+---
+import DomainIcon from "./DomainIcon.astro";
+import { domains, domainHref } from "../data/site";
+---
+
+<section class="section" aria-labelledby="services-title">
+  <div class="container">
+    <div class="home-head">
+      <div>
+        <p class="eyebrow">What We Do</p>
+        <h2 id="services-title">Six ways we make technology work for you</h2>
+      </div>
+      <a href="/services" class="text-link">View all services →</a>
+    </div>
+
+    <ul class="hs-grid">
+      {
+        domains.map((d) => (
+          <li class="reveal">
+            <a href={domainHref(d.id)} class="hs-card">
+              <span class="hs-icon">
+                <DomainIcon id={d.id} />
+              </span>
+              <span class="hs-body">
+                <h3>{d.shortTitle}</h3>
+                <p>{d.tagline}</p>
+              </span>
+              <svg class="hs-arrow" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

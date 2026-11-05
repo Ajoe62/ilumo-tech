@@ -1,15 +1,22 @@
 ---
 import { products, contactHref } from "../data/site";
+
+interface Props {
+  // compact: short summary and plain white cards (home page teaser)
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
 ---
 
 <div class="products">
   {
     products.map((p, i) => (
-      <article class:list={["product-card", i % 2 === 0 ? "tone-dark" : "tone-light", "reveal"]}>
+      <article class:list={["product-card", compact || i % 2 === 1 ? "tone-light" : "tone-dark", "reveal"]}>
         <div class:list={["product-badge", { alt: i % 2 === 1 }]}>{p.badge}</div>
         <div>
           <h3>{p.name}</h3>
-          <p>{p.description}</p>
+          <p>{compact ? p.summary : p.description}</p>
           <div class="product-links">
             <a href={`/products#${p.id}`} class="text-link">Learn more →</a>
             <a href={contactHref("education-technology", `${p.name} demo request`)} class="text-link muted">

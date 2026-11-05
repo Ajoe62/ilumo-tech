@@ -226,14 +226,6 @@ export const products = [
   },
 ];
 
-export const audiences = [
-  { who: "I want to automate my business", what: "AI agents, chatbots and automated workflows", target: "ai-automation", icon: "automate" },
-  { who: "I run a school", what: "Assessment, grading and learning tools", target: "education-technology", icon: "school" },
-  { who: "I own a business", what: "Websites, apps and custom software", target: "software-development", icon: "business" },
-  { who: "I manage a brand", what: "Social media, content and online presence", target: "digital-media", icon: "brand" },
-  { who: "I want to learn", what: "Practical AI and digital skills training", target: "digital-skills-training", icon: "learner" },
-] as const;
-
 export const steps = [
   { title: "Tell us your goal", text: "Share the problem you want to solve or the skill you want to build." },
   { title: "We plan together", text: "We recommend the right solution, timeline and approach for you." },
